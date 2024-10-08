@@ -46,7 +46,7 @@ for i in range(len(out_arr)):
 if j != len(expected_arr):
     print(f"Failed on test case {len(out_arr)}")
 else:
-    print("All passed")
+    print(f"All {len(expected_arr)} test cases passed!")
 store(storedStr)
 
 

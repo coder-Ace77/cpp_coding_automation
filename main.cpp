@@ -191,7 +191,7 @@ int main(){
     // cin>>t;
     while(t--){
         solve();
-        // cout<<'$'<<endl;
+        // cout<<"$"<<endl;
     }
 return 0;
 }

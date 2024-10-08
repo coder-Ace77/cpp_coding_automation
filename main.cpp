@@ -110,50 +110,78 @@ void debugv(vector<pll> v){for(auto x:v)cout<<x.F<<','<<x.S<<' ';cout<<endl;}
 void debugv(vector<string> v){for(auto x:v)cout<<x<<' ';cout<<endl;}
 void debugv(vector<vector<int>> v){for(auto x:v)debugv(x);}
 
-vector<pii> adj[MAXN];
-
 void solve(){
     int n,m;
     cin>>n>>m;
+
+    vector<vector<int>> adj(n), adj_rev(n);
+
     f(m){
-        int u,v,w;
-        cin>>u>>v>>w;
+        int u,v;
+        cin>>u>>v;
         u--,v--;
-        adj[u].push_back({v,w});
+        adj[u].pb(v);
+        adj_rev[v].pb(u);
     }
-    priority_queue<pair<ll,int>> pq;
 
-    vll dist(n,1e18),ways(n);
-    vi mnf(n),mxf(n),vis(n);
+    vector<bool> vis(n,false);
+    vector<int> order;
 
-    dist[0]=0;
-    ways[0]=1;
-    pq.push({0ll,0});
-
-    while(!pq.empty()){
-        int node = pq.top().S;
-        pq.pop();
-
-        if(vis[node])continue;
-        vis[node]=true;
-
-        for(auto [ch,wt]:adj[node]){
-            ll new_cst = dist[node]+wt;
-            if(new_cst==dist[ch]){
-                ways[ch]+=ways[node];
-                ways[ch]%=mod;
-                mnf[ch] = min(mnf[ch],mnf[node]+1);
-                mxf[ch] = max(mxf[ch],mxf[node]+1);
-            }else if(new_cst<dist[ch]){
-                dist[ch]=new_cst;
-                ways[ch]=ways[node];
-                mnf[ch] = mnf[node]+1;
-                mxf[ch] = mxf[node]+1;
-                pq.push({-dist[ch],ch});
+    function<void(int)> dfs1 = [&](int u){
+        vis[u]=true;
+        for(int v:adj[u]){
+            if(!vis[v]){
+                dfs1(v);
             }
         }
+        order.pb(u);
+    };
+
+    f(n){
+        if(!vis[i]){
+            dfs1(i);
+        }
     }
-    cout<<dist[n-1]<<" "<<ways[n-1]<<" "<<mnf[n-1]<<" "<<mxf[n-1];
+
+    reverse(all(order));
+
+    vector<int> comp(n,-1);
+    int c=0;
+
+    function<void(int,int)> dfs2 = [&](int u,int c){
+        comp[u]=c;
+        for(int v:adj_rev[u]){
+            if(comp[v]==-1){
+                dfs2(v,c);
+            }
+        }
+    };
+
+    for(int u:order){
+        if(comp[u]==-1){
+            dfs2(u,c++);
+        }
+    }
+
+    if(c==1){
+        cout<<"YES\n";
+    }else{
+        cout<<"NO\n";
+        int a=-1,b=-1;
+        f(n){
+            if(comp[i]==0){
+                a=i;
+                break;
+            }
+        }
+        f(n){
+            if(comp[i]!=0){
+                b=i;
+                break;
+            }
+        }
+        cout<<b+1<<" "<<a+1<<endl;
+    }
 }
 
 int main(){
@@ -163,7 +191,7 @@ int main(){
     // cin>>t;
     while(t--){
         solve();
-        // cout<<"$"<<endl;
+        // cout<<'$'<<endl;
     }
 return 0;
 }

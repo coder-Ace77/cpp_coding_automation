@@ -1,0 +1,10 @@
+class Trie{
+    class Node{
+        bool is_end;
+        map<char,Node*> links;
+    };
+    public:
+    void insert(){
+        
+    }
+};

@@ -1,3 +1,5 @@
 seg-tree,lib/seg-tree-sum
 seg-tree-sum,lib/seg-tree-sum
+trie,lib/trie-pointer
 mod,lib/mod
+h,lib/h

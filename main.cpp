@@ -54,6 +54,20 @@ void debugv(vector<pll> v){for(auto x:v)cout<<x.F<<','<<x.S<<' ';cout<<endl;}
 void debugv(vector<string> v){for(auto x:v)cout<<x<<' ';cout<<endl;}
 void debugv(vector<vector<int>> v){for(auto x:v)debugv(x);}
 
+class Trie{
+    class Node{
+        bool is_end;
+        map<char,Node*> links;
+    };
+    public:
+    void insert(){
+        
+    }
+};
+
+// h9i
+
+
 void solve(){
     
 }

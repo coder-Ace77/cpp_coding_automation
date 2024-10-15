@@ -47,62 +47,6 @@ using namespace std;
 using namespace __gnu_pbds;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
 
-template <unsigned int MOD>
-struct ModInt {
-    using uint = unsigned int;
-    using ull = unsigned long long;
-    using M = ModInt;
-
-    uint v;
-
-    ModInt(ll _v = 0) { set_norm(_v % MOD + MOD); }
-    M& set_norm(uint _v) {  //[0, MOD * 2)->[0, MOD)
-        v = (_v < MOD) ? _v : _v - MOD;
-        return *this;
-    }
-
-    explicit operator bool() const { return v != 0; }
-    M operator+(const M& a) const { return M().set_norm(v + a.v); }
-    M operator-(const M& a) const { return M().set_norm(v + MOD - a.v); }
-    M operator*(const M& a) const { return M().set_norm(ull(v) * a.v % MOD); }
-    M operator/(const M& a) const { return *this * a.inv(); }
-    M& operator+=(const M& a) { return *this = *this + a; }
-    M& operator-=(const M& a) { return *this = *this - a; }
-    M& operator*=(const M& a) { return *this = *this * a; }
-    M& operator/=(const M& a) { return *this = *this / a; }
-    M operator-() const { return M() - *this; }
-    M& operator++(int) { return *this = *this + 1; }
-    M& operator--(int) { return *this = *this - 1; }
-
-    M pow(ll n) const {
-        if (n < 0) return inv().pow(-n);
-        M x = *this, res = 1;
-        while (n) {
-            if (n & 1) res *= x;
-            x *= x;
-            n >>= 1;
-        }
-        return res;
-    }
-
-    M inv() const {
-        ll a = v, b = MOD, p = 1, q = 0, t;
-        while (b != 0) {
-            t = a / b;
-            swap(a -= t * b, b);
-            swap(p -= t * q, q);
-        }
-        return M(p);
-    }
-
-    bool operator==(const M& a) const { return v == a.v; }
-    bool operator!=(const M& a) const { return v != a.v; }
-    friend ostream& operator<<(ostream& os, const M& a) { return os << a.v; }
-    static uint get_mod() { return MOD; }
-};
-using Mint = ModInt<1000000007>; // change here;
-
-// hello i am segment tree;
 
 void debugv(vector<int> v){for(auto x:v)cout<<x<<' ';cout<<endl;}
 void debugv(vector<ll> v){for(auto x:v)cout<<x<<' ';cout<<endl;}
@@ -111,15 +55,55 @@ void debugv(vector<pll> v){for(auto x:v)cout<<x.F<<','<<x.S<<' ';cout<<endl;}
 void debugv(vector<string> v){for(auto x:v)cout<<x<<' ';cout<<endl;}
 void debugv(vector<vector<int>> v){for(auto x:v)debugv(x);}
 
-int binpow(int a,int b){
-    if(b==0)return 1;
-    int x = binpow(a,b/2);
-    if(b%2==1){
-        return ((1ll*x*x)%mod*a)%mod;
-    }else{
-        return (1ll*x*x)%mod;
+class SegTree{
+    void build(vector<int> &arr,int l,int r,int i){
+        if(l==r){
+            tree[i]=arr[l];
+            return;
+        }
+        int mid = (l+r)/2;
+        build(arr,l,mid,2*i+1);
+        build(arr,mid+1,r,2*i+2);
+        tree[i]=tree[2*i+1]+tree[2*i+2];
     }
-}
+
+    void upd(int ind,int val,int l,int r,int i){
+        if(l==r){
+            tree[i]=val;
+            return;
+        }
+        int mid = (l+r)/2;
+        if(ind<=mid)upd(ind,val,l,mid,2*i+1);
+        else upd(ind,val,mid+1,r,2*i+2);
+        tree[i]=tree[2*i+1]+tree[2*i+2];
+    }
+
+    int qry(int ql,int qr,int l,int r,int i){
+        if(ql>r || l>qr)return 0;
+        if(ql<=l && r<=qr)return tree[i];
+        int mid = (l+r)/2;
+        return qry(ql,qr,l,mid,2*i+1)+qry(ql,qr,mid+1,r,2*i+2);
+    }
+
+    public:
+    int n;
+    vector<int> tree;
+    SegTree(int arr_size){
+        tree.resize(4*arr_size);
+        n=arr_size;
+    }
+    void build(vector<int> &arr){
+        build(arr,0,arr.size()-1,0);
+    }
+
+    void upd(int ind,int val){
+        upd(ind,val,0,n-1,0);
+    }
+
+    int qry(int ql,int qr){
+        return qry(ql,qr,0,n-1,0);
+    } 
+};
 
 void solve(){
     

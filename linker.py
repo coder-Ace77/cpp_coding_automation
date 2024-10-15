@@ -21,7 +21,7 @@ def read_file_content(file_path):
         with open(file_path, 'r') as f:
             return f.read()
     else:
-        print(f'File "{file_path}" not found.')
+        print(f'[File "{file_path}" not found.]')
         return ''
 
 def parse(filename="main.cpp"): 
@@ -34,13 +34,14 @@ def parse(filename="main.cpp"):
 
     for cmd in cmds:
         match = re.search(pattern, cmd)
-        if match:
+        if match and cmd.startswith("import"):
             inner_text = match.group(1)
             if inner_text in module_map:
                 module_content = read_file_content(module_map[inner_text])
                 cmd = cmd.replace(match.group(0), module_content)
             else:
-                print(f'Module "{inner_text}" not found in the mapping.')
+                print(f'[Err : module "{inner_text}" not found.]')
+                exit(1)
 
         out.append(cmd)
 
@@ -51,4 +52,4 @@ def parse(filename="main.cpp"):
 
 if __name__ == "__main__":
     result = parse()
-    print("Parsing completed. The main.cpp file has been updated.")
+    print("[Linking done.]")

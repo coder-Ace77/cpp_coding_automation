@@ -10,21 +10,27 @@ else
 fi
 
 if [ "$current_hash" == "$last_hash" ]; then
-    echo "No changes detected in main.cpp. Skipping compilation."
+    echo "[No changes detected in main.cpp. Skipping compilation.]"
 else
+    echo "[Linking.]"
     python3 linker.py
-    echo "Changes detected. Compiling main.cpp..."
+    if [ $? -ne 0 ]; then
+        echo "[Linking failed. Aborting compilation.]"
+        exit 0
+    fi
+    
+    echo "[Changes detected. Compiling main.cpp]"
     g++ main.cpp -o main
     if [ $? -ne 0 ]; then
-        echo -e "\e[31mCompilation failed\e[0m"
-        exit 1
+        echo "[Compilation failed]"
+        exit 0
     fi
     
     echo "$current_hash" > last_hash.txt
-    echo "Compiled"
+    echo "[Compiled.]"
 fi
 
-echo "Executing..."
+echo "[Executing]"
 
 timeout 3s /usr/bin/time -f "\nExecution time: %e seconds\nMemory used: %M KB\n" ./main print_dollar < input.txt | python3 script.py
 if [ $? -eq 124 ]; then

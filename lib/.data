@@ -1,2 +1,3 @@
-seg_tree,lib/seg_tree
+seg-tree,lib/seg-tree-sum
+seg-tree-sum,lib/seg-tree-sum
 mod,lib/mod

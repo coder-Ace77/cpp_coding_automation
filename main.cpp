@@ -47,63 +47,12 @@ using namespace std;
 using namespace __gnu_pbds;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
 
-
 void debugv(vector<int> v){for(auto x:v)cout<<x<<' ';cout<<endl;}
 void debugv(vector<ll> v){for(auto x:v)cout<<x<<' ';cout<<endl;}
 void debugv(vector<pii> v){for(auto x:v)cout<<x.F<<','<<x.S<<' ';cout<<endl;}
 void debugv(vector<pll> v){for(auto x:v)cout<<x.F<<','<<x.S<<' ';cout<<endl;}
 void debugv(vector<string> v){for(auto x:v)cout<<x<<' ';cout<<endl;}
 void debugv(vector<vector<int>> v){for(auto x:v)debugv(x);}
-
-class SegTree{
-    void build(vector<int> &arr,int l,int r,int i){
-        if(l==r){
-            tree[i]=arr[l];
-            return;
-        }
-        int mid = (l+r)/2;
-        build(arr,l,mid,2*i+1);
-        build(arr,mid+1,r,2*i+2);
-        tree[i]=tree[2*i+1]+tree[2*i+2];
-    }
-
-    void upd(int ind,int val,int l,int r,int i){
-        if(l==r){
-            tree[i]=val;
-            return;
-        }
-        int mid = (l+r)/2;
-        if(ind<=mid)upd(ind,val,l,mid,2*i+1);
-        else upd(ind,val,mid+1,r,2*i+2);
-        tree[i]=tree[2*i+1]+tree[2*i+2];
-    }
-
-    int qry(int ql,int qr,int l,int r,int i){
-        if(ql>r || l>qr)return 0;
-        if(ql<=l && r<=qr)return tree[i];
-        int mid = (l+r)/2;
-        return qry(ql,qr,l,mid,2*i+1)+qry(ql,qr,mid+1,r,2*i+2);
-    }
-
-    public:
-    int n;
-    vector<int> tree;
-    SegTree(int arr_size){
-        tree.resize(4*arr_size);
-        n=arr_size;
-    }
-    void build(vector<int> &arr){
-        build(arr,0,arr.size()-1,0);
-    }
-
-    void upd(int ind,int val){
-        upd(ind,val,0,n-1,0);
-    }
-
-    int qry(int ql,int qr){
-        return qry(ql,qr,0,n-1,0);
-    } 
-};
 
 void solve(){
     

@@ -34,7 +34,7 @@ def parse(filename="main.cpp"):
 
     for cmd in cmds:
         match = re.search(pattern, cmd)
-        if match and cmd.startswith("import"):
+        if match and cmd.startswith("import("):
             inner_text = match.group(1)
             if inner_text in module_map:
                 module_content = read_file_content(module_map[inner_text])

@@ -102,8 +102,6 @@ struct ModInt {
 };
 using Mint = ModInt<1000000007>; // change here;
 
-// hello i am segment tree;
-
 void debugv(vector<int> v){for(auto x:v)cout<<x<<' ';cout<<endl;}
 void debugv(vector<ll> v){for(auto x:v)cout<<x<<' ';cout<<endl;}
 void debugv(vector<pii> v){for(auto x:v)cout<<x.F<<','<<x.S<<' ';cout<<endl;}

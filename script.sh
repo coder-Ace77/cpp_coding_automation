@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sed -i 's|// cout<<\"\$\"<<endl;|cout<<\"\$\"<<endl;|' main.cpp
+cd /home/acecoder/Desktop/script
 current_hash=$(sha256sum main.cpp | awk '{ print $1 }')
 
 if [ -f last_hash.txt ]; then
@@ -12,10 +12,11 @@ fi
 if [ "$current_hash" == "$last_hash" ]; then
     echo "No changes detected in main.cpp. Skipping compilation."
 else
+    python3 linker.py
     echo "Changes detected. Compiling main.cpp..."
     g++ main.cpp -o main
     if [ $? -ne 0 ]; then
-        echo "Compilation failed"
+        echo -e "\e[31mCompilation failed\e[0m"
         exit 1
     fi
     
@@ -23,10 +24,10 @@ else
     echo "Compiled"
 fi
 
-./main < input.txt | python3 script.py
-if [ $? -ne 0 ]; then
-    echo "Execution failed"
-    exit 1
-fi
+echo "Executing..."
 
-sed -i 's|cout<<\"\$\"<<endl;|// cout<<\"\$\"<<endl;|' main.cpp
+timeout 3s /usr/bin/time -f "\nExecution time: %e seconds\nMemory used: %M KB\n" ./main print_dollar < input.txt | python3 script.py
+if [ $? -eq 124 ]; then
+    echo "TLE: Time Limit Exceeded"
+    exit 0
+fi

@@ -15,6 +15,12 @@ if [ ${#versions[@]} -eq 0 ]; then
     exit 1
 fi
 
+# Prepend _RESET.cpp if it exists
+reset_file="_RESET.cpp"
+if [[ " ${versions[@]} " =~ " $reset_file " ]]; then
+    versions=("$reset_file" "${versions[@]/$reset_file}")
+fi
+
 # Display the versions using fzf for a terminal-like feel
 selected_version=$(printf "%s\n" "${versions[@]}" | fzf --height 20 --reverse --border --prompt "Select a version: ")
 

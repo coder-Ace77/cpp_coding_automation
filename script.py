@@ -13,7 +13,7 @@ def split_file_by_delimiter(file_path, delimiter='$'):
         print(f"An error occurred: {e}")
         return []
 
-def split_string(content, delimiter='$'):
+def split_string(content, delimiter='|'):
     split_content = [part.strip() for part in content.split(delimiter) if part.strip()]
     return split_content
 
@@ -25,12 +25,13 @@ def store(buffer):
     fl = open("output.txt" , 'w')
     fl.write(buffer)
 
-output_str = sys.stdin.read().strip()    
+output_str = sys.stdin.read().strip()
+# print(output_str)    
 expected_arr = split_file_by_delimiter(file_path="expected.txt", delimiter='\n')
 out_arr = split_string(output_str)
+# print(out_arr)
 
-storedStr = output_str.replace('$',' ')
-
+storedStr = output_str.replace('|',' ')
 
 j = 0
 for i in range(len(out_arr)):

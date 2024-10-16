@@ -1,0 +1,59 @@
+class RollingHash{
+    public:
+    // int mod=1e9+7;
+    int p=31,inv;
+    vector<int> h,pw,invp;
+    RollingHash(){
+        inv = bin_pow(p,mod-2);
+    }
+
+    int hash(string &s) {
+        ll ans = 0;
+        int n = s.size();
+        ll pw = 1;
+        for (int i = 0; i < n; i++) {
+            int val = (s[i] - 'a' + 1);
+            ans = (ans + (pw * val) % mod) % mod;
+            pw = (pw * p) % mod;
+        }
+        return ans;
+    }
+
+    void build(string &s){
+        ll ans = 0;
+        int n = s.size();
+        h.resize(n);
+        pw.resize(n);
+        invp.resize(n);
+        ll currPow = 1,currinv=1;
+        for (int i = 0; i < n; i++){
+            int val = (s[i] - 'a' + 1);
+            ans = (ans + (currPow * val) % mod) % mod;
+            pw[i]=currPow;
+            invp[i]=currinv;
+            currPow = (currPow * p) % mod;
+            currinv = (currinv*inv)%mod;
+            h[i] = ans;
+        }
+    }
+
+    int qry(int l,int r){
+        if (l == 0) return h[r];
+        else {
+            ll res = (h[r] - h[l-1] + mod) % mod; 
+            return (1ll * res*invp[l])%mod;
+        }
+    }
+
+    // we can also add inv power query instead of precalc powers
+    int bin_pow(int a, int b) {
+        if (b == 0) return 1;
+        int x = bin_pow(a, b / 2);
+        x = (1ll * x * x) % mod; 
+        if (b % 2 == 0) {
+            return x;
+        } else {
+            return (1ll * x * a) % mod; 
+        }
+    }
+};

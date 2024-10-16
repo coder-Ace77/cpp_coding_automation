@@ -1,0 +1,86 @@
+template <typename T>
+class SegTree{
+    void build(vector<T> &arr,int l,int r,int i){
+        if(l==r){
+            tree[i]=arr[l];
+            return;
+        }
+        int mid = (l+r)/2;
+        build(arr,l,mid,2*i+1);
+        build(arr,mid+1,r,2*i+2);
+        tree[i]=fn(tree[2*i+1],tree[2*i+2]);
+    }
+
+    void make_pure(int l,int r,int i){
+    	if(is_del_update)make_pure_delta(l,r,i);
+    	else make_pure_set(l,r,i);
+    }
+
+
+    void make_pure_set(int l,int r,int i){
+    	if(lz[i]==0)return;
+    	tree[i]=lz[i];
+    	if(l!=r){
+    		lz[2*i+1]=lz[i];
+    		lz[2*i+2]=lz[i];
+    	}
+    	lz[i]=0;
+    }
+
+    void make_pure_delta(int l,int r,int i){
+    	if(lz[i]==0)return;
+    	tree[i]+=lz[i];
+    	if(l!=r){
+    		lz[2*i+1]+=lz[i];
+    		lz[2*i+2]+=lz[i];
+    	}
+    	lz[i]=0;
+    }
+
+    void upd(int ql,int qr,int val,int l,int r,int i){
+    	make_pure(l,r,i);
+        if(ql>r || l>qr)return;
+        if(ql<=l && r<=qr){
+        	if(is_del_update)lz[i]+=val;
+        	else lz[i]=val;
+    		make_pure(l,r,i);
+    		return;
+        }
+        int mid = (l+r)/2;
+        upd(ql,qr,val,l,mid,2*i+1);
+        upd(ql,qr,val,mid+1,r,2*i+2);
+        tree[i]=fn(tree[2*i+1],tree[2*i+2]);
+    }
+
+    T qry(int ql,int qr,int l,int r,int i){
+    	make_pure(l,r,i);
+        if(ql>r || l>qr)return 0;
+        if(ql<=l && r<=qr)return tree[i];
+        int mid = (l+r)/2;
+        return fn(qry(ql,qr,l,mid,2*i+1),qry(ql,qr,mid+1,r,2*i+2));
+    }
+
+    public:
+    int n;
+    function<T(T,T)> fn;
+    vector<T> tree,lz;
+    bool is_del_update;
+    SegTree(int arr_size,function<T(T,T)> op,bool is_delta=false){
+        tree.resize(4*arr_size);
+        lz.resize(4*arr_size);
+        n=arr_size;
+        fn = op;
+        is_del_update=is_delta;
+    }
+    void build(vector<T> &arr){
+        build(arr,0,arr.size()-1,0);
+    }
+
+    void upd(int ql,int qr,T val){
+        upd(ql,qr,val,0,n-1,0);
+    }
+
+    T qry(int ql,int qr){
+        return qry(ql,qr,0,n-1,0);
+    } 
+};

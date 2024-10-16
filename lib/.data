@@ -3,3 +3,13 @@ seg-tree-sum,lib/seg-tree-sum
 trie,lib/trie-pointer
 mod,lib/mod
 h,lib/h
+seg-tree-fn,lib/seg-tree-fn
+seg-lazy-fn,lib/seg-lazy-fn
+seg-lazy,lib/seg-lazy
+prefix,lib/prefix
+lca,lib/lca
+dsu,lib/dsu
+rolling-hash,lib/rolling-hash
+array,lib/array
+debugv,lib/debugv
+leetcode,lib/leetcode

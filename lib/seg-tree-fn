@@ -1,0 +1,54 @@
+template <typename T>
+class SegTree{
+    void build(vector<T> &arr,int l,int r,int i){
+        if(l==r){
+            tree[i]=arr[l];
+            return;
+        }
+        int mid = (l+r)/2;
+        build(arr,l,mid,2*i+1);
+        build(arr,mid+1,r,2*i+2);
+        tree[i]=fn(tree[2*i+1],tree[2*i+2]);
+    }
+
+    void upd(int ind,int val,int l,int r,int i){
+        if(l==r){
+            tree[i]=val;
+            return;
+        }
+        int mid = (l+r)/2;
+        if(ind<=mid)upd(ind,val,l,mid,2*i+1);
+        else upd(ind,val,mid+1,r,2*i+2);
+        tree[i]=fn(tree[2*i+1],tree[2*i+2]);
+    }
+
+    T qry(int ql,int qr,int l,int r,int i){
+        if(ql>r || l>qr)return def;
+        if(ql<=l && r<=qr)return tree[i];
+        int mid = (l+r)/2;
+        return fn(qry(ql,qr,l,mid,2*i+1),qry(ql,qr,mid+1,r,2*i+2));
+    }
+
+    public:
+    int n;
+    function<T(T,T)> fn;
+    vector<T> tree;
+    T def;
+    SegTree(int arr_size,function<T(T,T)> op,T d=0){
+        tree.resize(4*arr_size);
+        n=arr_size;
+        fn = op;
+        def=d;
+    }
+    void build(vector<T> &arr){
+        build(arr,0,arr.size()-1,0);
+    }
+
+    void upd(int ind,T val){
+        upd(ind,val,0,n-1,0);
+    }
+
+    T qry(int ql,int qr){
+        return qry(ql,qr,0,n-1,0);
+    } 
+};

@@ -3,7 +3,7 @@ class Array{
     public:
     vector<T> v,pre;
 
-    Array() : v(), pre() {}
+    Array() : v(), pre() {} // Default constructor    
 
     Array(int n,T vl){
         v.resize(n,vl);

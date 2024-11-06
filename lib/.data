@@ -13,3 +13,6 @@ rolling-hash,lib/rolling-hash
 array,lib/array
 debugv,lib/debugv
 leetcode,lib/leetcode
+EdmundKarp,lib/EdmundKarp
+num-th,lib/num-th
+matrix,lib/matrix

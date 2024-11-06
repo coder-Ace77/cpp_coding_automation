@@ -32,11 +32,14 @@ def parse(filename="main.cpp"):
     cmds = split_string_only(text)
     out = []
 
+    cnts = 0
+
     for cmd in cmds:
         match = re.search(pattern, cmd)
         if match and cmd.startswith("import("):
             inner_text = match.group(1)
             if inner_text in module_map:
+                cnts+=1
                 module_content = read_file_content(module_map[inner_text])
                 cmd = cmd.replace(match.group(0), module_content)
             else:
@@ -45,11 +48,12 @@ def parse(filename="main.cpp"):
 
         out.append(cmd)
 
-    with open(filename, 'w') as out_file:
-        out_file.writelines(out)  
+    if cnts>0:
+        with open(filename, 'w') as out_file:
+            out_file.writelines(out)  
 
     return out
 
 if __name__ == "__main__":
-    result = parse()
+    parse()
     print("[Linking done.]")

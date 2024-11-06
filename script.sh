@@ -20,7 +20,7 @@ else
     fi
     
     echo "[Changes detected. Compiling main.cpp]"
-    g++ main.cpp -o main
+    g++ -std=c++17 main.cpp -include pch.h -o main
     if [ $? -ne 0 ]; then
         echo "[Compilation failed]"
         exit 0
@@ -33,6 +33,7 @@ fi
 echo "[Executing]"
 
 timeout 3s /usr/bin/time -f "\nExecution time: %e seconds\nMemory used: %M KB\n" ./main print_dollar < input.txt | python3 script.py
+
 if [ $? -eq 124 ]; then
     echo "TLE: Time Limit Exceeded"
     exit 0

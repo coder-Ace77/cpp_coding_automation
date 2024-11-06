@@ -1,0 +1,43 @@
+class EdmundKarp{
+    public:
+    static ll max_flow(vector<vector<int>> &adj,vector<vector<ll>> &cap){
+        int n = adj.size();
+        vector<int> par(n,-1);
+
+        auto check = [&](){
+            queue<int> q;
+            q.push(0);
+            while(!q.empty()){
+                int node = q.front();
+                q.pop();
+                for(auto ch:adj[node]){
+                    ll w = cap[node][ch];
+                    if(w<=0 || par[ch]!=-1)continue;
+                    par[ch]=node;
+                    q.push(ch);
+                }
+            }
+            return par[n-1]!=-1;
+        };
+
+        ll ans = 0;
+
+        while(check()){
+            int node = n-1;
+            ll flow = infll;
+            while(node!=0){
+                flow = min(flow , cap[par[node]][node]);
+                node = par[node];
+            }
+            node = n-1;
+            while(node!=0){
+                cap[par[node]][node]-=flow;
+                cap[node][par[node]]+=flow;
+                node = par[node];
+            }
+            ans+=flow;
+            fill(par.begin(),par.end(),-1);
+        }
+        return ans;
+    }
+};

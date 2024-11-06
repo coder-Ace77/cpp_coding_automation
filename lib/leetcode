@@ -37,6 +37,11 @@ class Array{
     Array(int n,T vl){
         v.resize(n,vl);
     }
+
+    Array(vector<T> a){
+        v=a;
+    }
+
     T& operator [](int ind){
         return v.at(ind);
     }

@@ -5,9 +5,18 @@ class Array{
 
     Array() : v(), pre() {} // Default constructor    
 
+    Array(int n){
+        v.resize(n);
+    }
+
     Array(int n,T vl){
         v.resize(n,vl);
     }
+
+    Array(vector<T> a){
+        v=a;
+    }
+
     T& operator [](int ind){
         return v.at(ind);
     }

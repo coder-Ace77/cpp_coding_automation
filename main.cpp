@@ -60,7 +60,9 @@ template<typename T, typename... V>
 void _debug(T t,V... v){cerr<<t;if(sizeof...(v))cerr<<", ";_debug(v...);}
 
 void solve(){
-        
+    int n;
+    cin>>n;
+    
 }
 
 int main(int argc, char* argv[]) {

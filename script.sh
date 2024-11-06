@@ -12,27 +12,25 @@ fi
 if [ "$current_hash" == "$last_hash" ]; then
     echo "[No changes detected in main.cpp. Skipping compilation.]"
 else
-    echo "[Linking.]"
     python3 linker.py
     if [ $? -ne 0 ]; then
         echo "[Linking failed. Aborting compilation.]"
         exit 0
     fi
-    
-    echo "[Changes detected. Compiling main.cpp]"
-    g++ -std=c++17 main.cpp -include pch.h -o main
+
+    compilation_time=$( (/usr/bin/time -f "%e" g++ -std=c++17 main.cpp -include pch.h -o main) 2>&1 )
     if [ $? -ne 0 ]; then
         echo "[Compilation failed]"
         exit 0
     fi
-    
+    compilation_time_ms=$(awk "BEGIN {printf \"%.0f\", $compilation_time * 1000}")
+    echo -e "\n[Compiled] ${compilation_time_ms} ms"
+
     echo "$current_hash" > last_hash.txt
-    echo "[Compiled.]"
 fi
 
 echo "[Executing]"
-
-timeout 3s /usr/bin/time -f "\nExecution time: %e seconds\nMemory used: %M KB\n" ./main print_dollar < input.txt | python3 script.py
+timeout 3s /usr/bin/time -f "\nExecution time: %e seconds" ./main print_dollar < input.txt | python3 script.py
 
 if [ $? -eq 124 ]; then
     echo "TLE: Time Limit Exceeded"

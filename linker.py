@@ -56,4 +56,4 @@ def parse(filename="main.cpp"):
 
 if __name__ == "__main__":
     parse()
-    print("[Linking done.]")
+    print("[Linked.]",end="")

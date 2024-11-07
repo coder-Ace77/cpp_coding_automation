@@ -60,37 +60,12 @@ template<typename T, typename... V>
 void _debug(T t,V... v){cerr<<t;if(sizeof...(v))cerr<<", ";_debug(v...);}
 
 void solve(){
-    int n,m;
-    cin>>n>>m;
-
-    vector<vi> v(n,vi (m));
-    f(n){
-        fr(j,0,n-1)cin>>v[i][j];
-    }
-    ll ans = 0;
-    for(int r=0;r<n;r++){
-        ll cnt = 0;
-        for(int c=0;c<m;c++){
-            if(v[r][c]==1)cnt++;
-        }
-        ans+=(1ll<<cnt)+(1ll<<(m-cnt))-2;
-    }
-
-    for(int c=0;c<m;c++){
-        ll cnt = 0;
-        for(int r=0;r<n;r++){
-            if(v[r][c]==1)cnt++;
-        }
-        ans+=(1ll<<cnt)+(1ll<<(n-cnt))-2;
-    }
-    cout<<ans-n*m;
-
+    
 }
 
 int main(int argc, char* argv[]) {
     fast;cout<<fixed<<setprecision(PRECISION);  
-    int t = 1;
-    // cin >> t;
+    int t = 1;cin >> t;
     for(int i=1;i<=t;i++){
         solve();
         if (argc > 1 && string(argv[1]) == "print_dollar")cout << "|" << endl;  

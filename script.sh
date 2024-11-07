@@ -1,5 +1,4 @@
 #!/bin/bash
-
 cd /home/acecoder/Desktop/script
 current_hash=$(sha256sum main.cpp | awk '{ print $1 }')
 
@@ -18,12 +17,16 @@ else
         exit 0
     fi
 
-    compilation_time=$( (/usr/bin/time -f "%e" g++ -std=c++17 main.cpp -include pch.h -o main) 2>&1 )
+    # Capture compilation error output
+    compilation_output=$( (/usr/bin/time -f "%e" g++ -std=c++17 main.cpp -include pch.h -o main) 2>&1 )
     if [ $? -ne 0 ]; then
         echo "[Compilation failed]"
+        echo "$compilation_output"
         exit 0
     fi
-    compilation_time_ms=$(awk "BEGIN {printf \"%.0f\", $compilation_time * 1000}")
+
+    # Calculate and display compilation time
+    compilation_time_ms=$(awk "BEGIN {printf \"%.0f\", $compilation_output * 1000}")
     echo -e "\n[Compiled] ${compilation_time_ms} ms"
 
     echo "$current_hash" > last_hash.txt

@@ -28,14 +28,23 @@ else
     # Calculate and display compilation time
     compilation_time_ms=$(awk "BEGIN {printf \"%.0f\", $compilation_output * 1000}")
     echo -e "\n[Compiled] ${compilation_time_ms} ms"
-
     echo "$current_hash" > last_hash.txt
 fi
 
 echo "[Executing]"
-timeout 3s /usr/bin/time -f "\nExecution time: %e seconds" ./main print_dollar < input.txt | python3 script.py
+# timeout 3s /usr/bin/time -f "\nExecution time: %e seconds" ./main print_dollar < input.txt | python3 script.py
+x=$(timeout 3s /usr/bin/time -f "\n[DEBUG] Execution time: %e seconds" ./main print_dollar < input.txt 2>&1 | python3 script.py)
+echo "$x"
 
 if [ $? -eq 124 ]; then
     echo "TLE: Time Limit Exceeded"
     exit 0
 fi
+
+# Check for -d argument
+if [[ "$1" == "-d" ]]; then
+    echo "[Debug mode enabled]"
+    python3 debugger.py
+    exit 0
+fi
+

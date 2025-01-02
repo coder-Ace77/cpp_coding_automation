@@ -1,0 +1,25 @@
+class Point{
+    public:
+    ll x,y;
+    void read(){
+        cin>>x>>y;
+    }
+    Point operator-(const Point &b){
+        return Point{x-b.x,y-b.y};
+    }
+
+    long long operator*(const Point &b){
+        return x*b.y-y*b.x;
+    }
+
+    bool operator==(const Point &b){
+        return (x==b.x && y==b.y);
+    }
+
+    double slope(){
+        return y/(1.0*x);
+    }
+    long long triangle(Point &b,Point &c){
+        return (b-*this)*(c-*this);
+    }
+};

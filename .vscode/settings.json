@@ -1,6 +1,11 @@
 {
     "files.associations": {
         "iomanip": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "chrono": "cpp",
+        "functional": "cpp",
+        "limits": "cpp",
+        "source_location": "cpp",
+        "iosfwd": "cpp"
     }
 }

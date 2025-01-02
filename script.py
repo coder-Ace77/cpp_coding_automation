@@ -1,4 +1,5 @@
 import sys
+import re
 
 def split_file_by_delimiter(file_path, delimiter='$'):
     try:
@@ -25,11 +26,54 @@ def store(buffer):
     fl = open("output.txt" , 'w')
     fl.write(buffer)
 
+def separate_debug_lines(input_string):
+    debug_lines = ""
+    other_lines = ""
+    
+    for line in input_string.splitlines():
+        if line.startswith("[DEBUG]"):
+            debug_lines += line + "\n"
+        else:
+            other_lines += line + "\n"
+    
+    return debug_lines, other_lines
+
+
+def extract_debug_info(debug_line):
+    match = re.match(r"\[DEBUG\] (\d+): (.*)", debug_line)
+    if match:
+        line_number = int(match.group(1))  
+        text = match.group(2) 
+        return line_number, text
+    else:
+        return None 
+
+def process_debug_logs(deg_lines):
+    l = []
+    for line in deg_lines.splitlines():
+        if extract_debug_info(line) is not None:
+            l.append(extract_debug_info(line))
+    # print(l)
+    return l
+
+def save_tuples_to_file(tuple_list, filename="log.txt"):
+    with open(filename, 'w') as file:
+        for tup1, tup2 in tuple_list:
+            file.write(f"{tup1},{tup2}\n")
+
+
+
 output_str = sys.stdin.read().strip()
+deg_lines,output_str = separate_debug_lines(output_str)
+processed_debug_logs = process_debug_logs(deg_lines)
+save_tuples_to_file(processed_debug_logs)
+
+
 # print(output_str)    
 expected_arr = split_file_by_delimiter(file_path="expected.txt", delimiter='\n')
 out_arr = split_string(output_str)
 # print(out_arr)
+
 
 storedStr = output_str.replace('|',' ')
 

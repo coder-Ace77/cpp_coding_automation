@@ -31,11 +31,9 @@ def separate_debug_lines(input_string):
     other_lines = ""
     
     for line in input_string.splitlines():
-        if line.startswith("[DEBUG]"):
-            debug_lines += line + "\n"
-        else:
+        if not line.startswith("[DEBUG]"):
             other_lines += line + "\n"
-    
+        debug_lines += line + "\n"    
     return debug_lines, other_lines
 
 
@@ -46,7 +44,7 @@ def extract_debug_info(debug_line):
         text = match.group(2) 
         return line_number, text
     else:
-        return None 
+        return 0,debug_line
 
 def process_debug_logs(deg_lines):
     l = []

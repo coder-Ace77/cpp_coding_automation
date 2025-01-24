@@ -56,13 +56,12 @@ def main():
                     print(f"Test case {i}: Failed")
                     print(f"Mismatch at line {line_num}:")
                     print(f"Expected: {expected}")
-                    print(f"Actual: {actual}")
+                    print(f"Output: {actual}")
                     print(f"Test Cases:")
                     print(test_cases)
                     exit(1)  
-            print(f"Test case {i}: Passed")
-            time.sleep(0.005)
 
+            print(f"Test case {i}: Passed")
 
 if __name__ == "__main__":
     main()

@@ -21,7 +21,7 @@ def process_text_log_line(s):
 
 
 
-def display_with_highlight(cpp_code: str, random_text: str, highlight_line: int):
+def display_with_highlight(cpp_code: str, random_text: str, highlight_line: int,output:str):
     console = Console()
     lines = cpp_code.splitlines()
     start_line = max(highlight_line - 10, 0)  
@@ -34,9 +34,7 @@ def display_with_highlight(cpp_code: str, random_text: str, highlight_line: int)
         else:
             highlighted_code += line + "\n"
 
-    cpp_syntax = Syntax(
-        highlighted_code, 
-        "cpp", 
+    cpp_syntax = Syntax(highlighted_code,"cpp",
         theme="monokai", 
         line_numbers=True, 
         highlight_lines={highlight_line - start_line}
@@ -47,17 +45,10 @@ def display_with_highlight(cpp_code: str, random_text: str, highlight_line: int)
     for i in range(len(var)):
         text_panel = Panel(vals[i], title=var[i], border_style="green",width=40) 
         l.append(text_panel)
-
+    l.append(Panel(output,title="Output", border_style="green",width=40))
     layout = Layout()
-
-    layout.split_row(
-        Layout(cpp_panel, ratio=3),  
-        Layout(Columns(l), ratio=1) 
-    )
-
+    layout.split_row(Layout(cpp_panel, ratio=3),Layout(Columns(l), ratio=1))
     outer_panel = Panel(layout, title="Debug", border_style="magenta", height=37)
-
-
     console.print(outer_panel)
 
 
@@ -84,7 +75,7 @@ def read_log_file(filename="log.txt"):
             tuple_list.append((int(tup1), tup2))
     return tuple_list
 
-l = read_log_file()
+l= read_log_file()
 
 import sys
 import tty
@@ -109,8 +100,37 @@ def get_arrow_key():
     finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
+def Full_string_join(arg):
+    x = ""
+    for i in arg:
+        x+=i.split("|")[0]+"\n"            
+    return x
+
 i = 0
+
+time.sleep(1)
+
+curr_output = []
+
+is_forward = True
+
+def preprocess_log(l):
+    ans = []
+    curr_out = ""
+    for i in range(len(l)):
+        if l[i][0]==0:
+            curr_out+=l[i][1].split("|")[0]+"\n"
+        else:   
+            ans.append([l[i][0],l[i][1],curr_out])
+    return ans
+
+l=preprocess_log(l)
+
 while True:
+    if(len(l)==0):
+        print()
+        print("No DEBUG pointers found!")
+        exit()
     os.system("clear")
 
     if i<0:
@@ -118,12 +138,17 @@ while True:
     if i>=len(l):
         i=len(l)-1
         
-    display_with_highlight(cpp_code,l[i][1],l[i][0])
+    display_with_highlight(cpp_code,l[i][1],l[i][0],l[i][2])
     n=get_arrow_key()
     if n=="Right Arrow":
         i+=1
+        is_forward=True
     elif n=="Left Arrow":
         i-=1
+        is_forward=False
     else:
         break
-    time.sleep(0.005)
+
+
+
+

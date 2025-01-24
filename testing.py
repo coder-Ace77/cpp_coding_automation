@@ -9,7 +9,7 @@ def execute_python(file):
 
 def compile_cpp(file, output):
     result = subprocess.run(
-        ["g++", "-std=c++17", "-include", "pch.h", file, "-o", output],
+        ["g++","-include","pch.h",file,"-o",output],
         capture_output=True,
         text=True
     )

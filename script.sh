@@ -18,7 +18,8 @@ else
     fi
 
     # Capture compilation error output
-    compilation_output=$( (/usr/bin/time -f "%e" g++ -std=c++17 main.cpp -include pch.h -o main) 2>&1 )
+    # compilation_output=$( (/usr/bin/time -f "%e" g++ -std=c++17 main.cpp -include pch.h -o main) 2>&1 )
+    compilation_output=$( (/usr/bin/time -f "%e" g++ -include pch.h main.cpp -o main) 2>&1 )
     if [ $? -ne 0 ]; then
         echo "[Compilation failed]"
         echo "$compilation_output"

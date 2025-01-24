@@ -1,6 +1,3 @@
-#ifndef PCH_H
-#define PCH_H
-
 #include <iostream>
 #include <cmath>
 #include <vector>
@@ -19,5 +16,3 @@
 #include <iomanip>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
-
-#endif 

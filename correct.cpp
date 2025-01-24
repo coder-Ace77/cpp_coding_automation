@@ -1,4 +1,22 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <cmath>
+#include <vector>
+#include <unordered_set>
+#include <algorithm>
+#include <string>
+#include <map>
+#include <list>
+#include <queue>
+#include <unordered_map>
+#include <set>
+#include <stack>
+#include <cstring>
+#include <numeric>
+#include <bitset>
+#include <iomanip>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+
 #define ll long long
 #define ull unsigned long long
 #define lll __int128
@@ -10,8 +28,6 @@
 #define y second
 #define lb(x) x&-x
 using namespace std;
-mt19937 rnd(chrono::steady_clock::now().time_since_epoch().count());
-ll rint(ll l,ll r){return uniform_int_distribution<ll>(l,r)(rnd);}
 const int maxn=3e5+10;
 template<class T> void read(T &X)
 {
@@ -29,8 +45,6 @@ pr a[maxn];
 set<pr> s;
 int main()
 {
-//    freopen(".in","r",stdin);
-//    freopen(".out","w",stdout);
     read(T);
     while(T--)
     {

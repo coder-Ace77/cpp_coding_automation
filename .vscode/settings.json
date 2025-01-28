@@ -6,6 +6,11 @@
         "functional": "cpp",
         "limits": "cpp",
         "source_location": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "random": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "vector": "cpp"
     }
 }

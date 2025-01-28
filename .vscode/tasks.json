@@ -4,7 +4,7 @@
         {
             "label": "test",
             "type": "shell",
-            "command": "./script.sh",
+            "command": "python3 exec.py",
             "problemMatcher": [],
             "group": {
                 "kind": "test",
@@ -49,6 +49,6 @@
               "kind": "build",
               "isDefault": true
             }
-        }
+        },
     ]
 }

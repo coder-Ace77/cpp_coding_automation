@@ -49,3 +49,8 @@ if [[ "$1" == "-d" ]]; then
     exit 0
 fi
 
+if [[ "$1" == "-dg" ]]; then
+    echo "[Debug mode enabled]"
+    python3 debugger_gui.py
+    exit 0
+fi

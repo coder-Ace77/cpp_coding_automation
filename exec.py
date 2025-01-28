@@ -206,9 +206,9 @@ class MainWindow(QWidget):
         self.setWindowTitle("Script Tester")
         self.setStyleSheet("background-color: #2e2e2e; padding: 20px;")
 
-        self.input_editor = FileEditor('input.txt', "Input File", "#3c3c3c", "#ffffff")
-        self.output_editor = FileEditor('output.txt', "Output File", "#404040", "#ffffff")
-        self.expected_editor = FileEditor('expected.txt', "Expected File", "#383838", "#ffffff")
+        self.input_editor = FileEditor('input.txt', "Input", "#3c3c3c", "#ffffff")
+        self.output_editor = FileEditor('output.txt', "Output", "#404040", "#ffffff")
+        self.expected_editor = FileEditor('expected.txt', "Expected", "#383838", "#ffffff")
 
         self.run_button = QPushButton("Run", self)
         self.run_button.setStyleSheet("background-color: #00796b; color: #ffffff; padding: 10px; font-size: 16px; border-radius: 5px;")

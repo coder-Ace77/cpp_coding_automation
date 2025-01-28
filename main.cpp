@@ -109,36 +109,46 @@ struct ModInt {
 };
 using Mint = ModInt<1000000007>;
 
-void solve(){
-    int n;
-    cin >> n;
-    vector<vector<int>> a(2 * n, vector<int>(2 * n));
-    for (int i = 0; i < 2 * n; i++) {
-        for (int j = i + 1; j < 2 * n; j++) {
-        cin >> a[i][j];
+void dfs_rec(vector<vector<int>> &adj, vector<bool> &vis, int node,int u,int v)
+{
+    if(vis[node]==true)return;
+    vis[node] = true;
+    for (int child : adj[node])
+    {
+        if((node==u && child==v) || (node==v && child==u)){
+            continue;
         }
+        dfs_rec(adj, vis, child,u,v);
     }
-    vector<bool> used(2 * n, false);
-    int ans = 0;
-    function<void(int)> Dfs = [&](int w){
-        int i = 0;
-        while (i < 2 * n && used[i]){
-            ++i;
+}
+
+void solve(){
+    int n,m;   
+    cin>>n>>m;
+    vector<vector<int>> adj(n);
+    vector<pair<int,int>> edges;
+    f(m){
+        int u,v;
+        cin>>u>>v;
+        u--;v--;
+        adj[u].pb(v);
+        adj[v].pb(u);
+        edges.push_back({u,v});
+    }
+    int ans=0;
+    debug(edges);
+    f(m){
+        int u = edges[i].first , v =edges[i].second;
+        vector<bool> vis(n,false);
+        dfs_rec(adj,vis,u,u,v);
+        for(int i=0;i<n;i++){
+            if(vis[i]==false){
+                ans++;
+                break;
+            }
         }
-        if (i == 2 * n) {
-        ans = max(ans, w);
-            return;
-        }
-        for (int j = i + 1; j < 2 * n; j++) {
-        if (!used[j]) {
-            debug(w);
-            used[i] = used[j] = true;
-            Dfs(w ^ a[i][j]);
-            used[i] = used[j] = false;
-        }
-        }
-    };
-    Dfs(0);
+        debug(vis);
+    }
     cout<<ans;
 }
 
@@ -149,6 +159,7 @@ int main(int argc, char* argv[]) {
         solve();
         if (argc > 1 && string(argv[1]) == "print_dollar") cout << "|" << endl;
         else cout << endl;
+        debug();
     }
     return 0;
 }

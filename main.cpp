@@ -59,107 +59,67 @@ void _debug(T t, V... v){cerr << t;if(sizeof...(v))cerr << "@ ";_debug(v...);}
 
 template <unsigned int MOD>
 struct ModInt {
-    using uint = unsigned int;
-    using ull = unsigned long long;
-    using M = ModInt;
+	using uint = unsigned int;
+	using ull = unsigned long long;
+	using M = ModInt;
 
-    uint v;
+	uint v;
 
-    ModInt(ll _v = 0) { set_norm(_v % MOD + MOD); }
-    M& set_norm(uint _v) { v = (_v < MOD) ? _v : _v - MOD; return *this; }
+	ModInt(ll _v = 0) { set_norm(_v % MOD + MOD); }
+	M& set_norm(uint _v) { v = (_v < MOD) ? _v : _v - MOD; return *this; }
 
-    explicit operator bool() const { return v != 0; }
-    M operator+(const M& a) const { return M().set_norm(v + a.v); }
-    M operator-(const M& a) const { return M().set_norm(v + MOD - a.v); }
-    M operator*(const M& a) const { return M().set_norm(ull(v) * a.v % MOD); }
-    M operator/(const M& a) const { return *this * a.inv(); }
-    M& operator+=(const M& a) { return *this = *this + a; }
-    M& operator-=(const M& a) { return *this = *this - a; }
-    M& operator*=(const M& a) { return *this = *this * a; }
-    M& operator/=(const M& a) { return *this = *this / a; }
-    M operator-() const { return M() - *this; }
-    M& operator++(int) { return *this = *this + 1; }
-    M& operator--(int) { return *this = *this - 1; }
+	explicit operator bool() const { return v != 0; }
+	M operator+(const M& a) const { return M().set_norm(v + a.v); }
+	M operator-(const M& a) const { return M().set_norm(v + MOD - a.v); }
+	M operator*(const M& a) const { return M().set_norm(ull(v) * a.v % MOD); }
+	M operator/(const M& a) const { return *this * a.inv(); }
+	M& operator+=(const M& a) { return *this = *this + a; }
+	M& operator-=(const M& a) { return *this = *this - a; }
+	M& operator*=(const M& a) { return *this = *this * a; }
+	M& operator/=(const M& a) { return *this = *this / a; }
+	M operator-() const { return M() - *this; }
+	M& operator++(int) { return *this = *this + 1; }
+	M& operator--(int) { return *this = *this - 1; }
 
-    M pow(ll n) const {
-        if (n < 0) return inv().pow(-n);
-        M x = *this, res = 1;
-        while (n) {
-            if (n & 1) res *= x;
-            x *= x;
-            n >>= 1;
-        }
-        return res;
-    }
+	M pow(ll n) const {
+		if (n < 0) return inv().pow(-n);
+		M x = *this, res = 1;
+		while (n) {
+			if (n & 1) res *= x;
+			x *= x;
+			n >>= 1;
+		}
+		return res;
+	}
 
-    M inv() const {
-        ll a = v, b = MOD, p = 1, q = 0, t;
-        while (b != 0) {
-            t = a / b;
-            swap(a -= t * b, b);
-            swap(p -= t * q, q);
-        }
-        return M(p);
-    }
+	M inv() const {
+		ll a = v, b = MOD, p = 1, q = 0, t;
+		while (b != 0) {
+			t = a / b;
+			swap(a -= t * b, b);
+			swap(p -= t * q, q);
+		}
+		return M(p);
+	}
 
-    bool operator==(const M& a) const { return v == a.v; }
-    bool operator!=(const M& a) const { return v != a.v; }
-    friend ostream& operator<<(ostream& os, const M& a) { return os << a.v; }
-    static uint get_mod() { return MOD; }
+	bool operator==(const M& a) const { return v == a.v; }
+	bool operator!=(const M& a) const { return v != a.v; }
+	friend ostream& operator<<(ostream& os, const M& a) { return os << a.v; }
+	static uint get_mod() { return MOD; }
 };
 using Mint = ModInt<1000000007>;
 
-void dfs_rec(vector<vector<int>> &adj, vector<bool> &vis, int node,int u,int v)
-{
-    if(vis[node]==true)return;
-    vis[node] = true;
-    for (int child : adj[node])
-    {
-        if((node==u && child==v) || (node==v && child==u)){
-            continue;
-        }
-        dfs_rec(adj, vis, child,u,v);
-    }
-}
-
 void solve(){
-    int n,m;   
-    cin>>n>>m;
-    vector<vector<int>> adj(n);
-    vector<pair<int,int>> edges;
-    f(m){
-        int u,v;
-        cin>>u>>v;
-        u--;v--;
-        adj[u].pb(v);
-        adj[v].pb(u);
-        edges.push_back({u,v});
-    }
-    int ans=0;
-    debug(edges);
-    f(m){
-        int u = edges[i].first , v =edges[i].second;
-        vector<bool> vis(n,false);
-        dfs_rec(adj,vis,u,u,v);
-        for(int i=0;i<n;i++){
-            if(vis[i]==false){
-                ans++;
-                break;
-            }
-        }
-        debug(vis);
-    }
-    cout<<ans;
+	
 }
 
 int main(int argc, char* argv[]) {
-    fast;cout << fixed << setprecision(PRECISION);
-    int t = 1;
-    for(int i = 1; i <= t; i++){
-        solve();
-        if (argc > 1 && string(argv[1]) == "print_dollar") cout << "|" << endl;
-        else cout << endl;
-        debug();
-    }
-    return 0;
+	fast;cout << fixed << setprecision(PRECISION);
+	int t = 1;cin >> t;
+	for(int i = 1; i <= t; i++){
+		solve();
+		if (argc > 1 && string(argv[1]) == "print_dollar") cout << "|" << endl;
+		else cout << endl;
+	}
+	return 0;
 }

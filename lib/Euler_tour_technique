@@ -1,0 +1,26 @@
+class Euler_tour_tech{
+    public:
+    vector<int> FT,S,T;
+    int timer = 1;
+    void build(int n,int root,vector<vector<int>> &adj1){ 
+        FT.resize(2*n+1);
+        S.resize(n);
+        T.resize(n);
+        timer = 1;
+        dfs(root,-1,adj1);
+    }
+
+    void dfs(int node,int par,vector<vi> &adj){
+        FT[timer]=node;
+        S[node]=timer;
+        timer++;
+        for(auto ch:adj[node]){
+            if(ch!=par){
+                dfs(ch,node,adj);
+            }
+        }
+        T[node]=timer;
+        FT[timer]=node;
+        timer++;
+    }
+};

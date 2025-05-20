@@ -1,7 +1,7 @@
 import random
 
 MAXN = 10
-MAXINT = 10
+MAXINT = 30
 MININT = 1
 T = 2
 
@@ -52,11 +52,17 @@ def gen_random_tree(n):
             print(u,v)
 
 
-# t = random.randint(1, T)
-# print(t)
+t = random.randint(1, T)
+print(t)
 
-n = random.randint(1, MAXN)
-print(n)
-gen_random_tree(n)
-for _ in range(n):
-    print(random.randint(MININT,MAXINT),end=" ")
+# n = random.randint(2, MAXN)
+# print(n)
+# gen_random_tree(n)
+
+for _ in range(t):
+    n = random.randint(1,MAXN)
+    print(n)
+    for i in range(n):
+        print(random.randint(MININT,MAXINT),end=" ")
+    print()
+    

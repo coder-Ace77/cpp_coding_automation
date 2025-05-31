@@ -111,83 +111,15 @@ void debugv(vector<pll> v){for(auto x:v)cout<<x.F<<','<<x.S<<' ';cout<<endl;}
 void debugv(vector<string> v){for(auto x:v)cout<<x<<' ';cout<<endl;}
 void debugv(vector<vector<int>> v){for(auto x:v)debugv(x);}
 
-class DSU{
-    public:
-    vector<int> par,size;
-    int n;
-    int mx=0;
-    DSU(int nn,string s){
-        n=nn;
-        par.resize(n);
-        size.resize(n);
-
-        for(int i=0;i<n;i++){
-            par[i]=i;
-            size[i]=0;
-            if(s[i]=='1'){size[i]=1;mx=1;}
-        }
-    }
-
-    int find(int a){
-        if(par[a]==a)return a;
-        return par[a]=find(par[a]);
-    }
-
-    void unite(int a,int b){
-        a=find(a),b=find(b);
-        if(a!=b){
-            // cout<<"UNITING: "<<a<<" "<<b<<endl;
-            if(size[a]<size[b])swap(a,b);
-            par[b]=a;
-            size[a]+=size[b];
-            mx=max(mx,size[a]);
-        }
-    }
-};
-
 void solve(){
-    int n,q;
-    cin>>n>>q;
-    string s;
-    cin>>s;
-
-    DSU d(n,s);
-
-    for(int i=1;i<n;i++){
-        if(s[i]=='1' && s[i-1]=='1'){
-            d.unite(i,i-1);
-        }
-    }
-
-    f(q){
-        int type;
-        cin>>type;
-        if(type==1){
-            // debugv(d.size);
-            cout<<d.mx<<endl;
-            // cout<<s<<endl;
-        }else{
-            int x;
-            cin>>x;
-            x--;
-            s[x]='1';
-            d.size[x]=1;
-            int prev = max(x-1,0);
-            int next = min(n-1,x+1);
-            // cout<<prev<<":"<<next<<endl;
-            d.mx = max(d.mx,1);
-            if(s[next]=='1')d.unite(x,next);
-            if(s[prev]=='1')d.unite(x,prev);
-        }
-    }
-
+    
 }
 
 int main(){
     fast;
     cout<<setprecision(PRECISION);
     int t=1;
-    // cin>>t;
+    cin>>t;
     while(t--){
         solve();
         cout<<endl;

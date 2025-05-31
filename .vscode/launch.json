@@ -1,11 +1,12 @@
 {
     "version": "0.2.0",
     "configurations": [
+      
       {
         "name": "Debug Competitive Code",
         "type": "cppdbg",
         "request": "launch",
-        "program": "${workspaceFolder}/a.out",
+        "program": "${workspaceFolder}/main.cpp",
         "args": ["<", "${workspaceFolder}/input.txt", ">", "${workspaceFolder}/output.txt"],
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",
